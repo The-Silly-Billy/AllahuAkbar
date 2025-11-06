@@ -52,10 +52,12 @@ public class GamePanel extends JPanel implements Runnable{
     //Brick Map
     Map4 map = new Map4( this);
     //PowerUp
+
     //Hearts
-    public ArrayList<Heart> heartList=new ArrayList<>();
-    int scorePlayer=0;
-    Font customFont=null;
+    public ArrayList<Heart> heartList = new ArrayList<>();
+
+    int scorePlayer = 0;
+    Font customFont = null;
 
     public GamePanel() {
 
@@ -65,6 +67,8 @@ public class GamePanel extends JPanel implements Runnable{
 
         this.addKeyListener(keyH);
         this.setFocusable(true);
+
+        playMusic(0);
 
         setupHearts();
         try {
@@ -77,10 +81,6 @@ public class GamePanel extends JPanel implements Runnable{
             e.printStackTrace();
             System.out.println("loi");
         }
-    }
-
-    public void setupGame(){
-        playMusic(0);
     }
 
     public void startGameThread() {
@@ -136,7 +136,6 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update() {
-
         if(heartList.isEmpty()) {
             setState(GameState.MENU);
         }
