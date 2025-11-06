@@ -3,8 +3,10 @@ package GameObject.PowerUp;
 import GameObject.GameObject;
 import Main.GamePanel;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public abstract class PowerUp extends GameObject {
 
@@ -33,6 +35,12 @@ public abstract class PowerUp extends GameObject {
 
         width = gp.originalTileSize * 2;
         height = gp.originalTileSize * 2;
+
+        try {
+            image = ImageIO.read(getClass().getResourceAsStream("/power_up.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void update() {
