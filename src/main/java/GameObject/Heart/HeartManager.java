@@ -25,7 +25,7 @@ public class HeartManager {
     }
 
     public void inc() {
-        if(heartList.size() < 6) {
+        if(heartList.size() < 5) {
             double heartX = heartList.getLast().posX + 30;
             heartList.add(new Heart(gp, (int) heartX));
         }
