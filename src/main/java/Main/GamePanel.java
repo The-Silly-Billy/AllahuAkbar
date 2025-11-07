@@ -150,73 +150,8 @@ public class GamePanel extends JPanel implements Runnable{
         }
 
         //Va cham voi pad
-        int vaChamVan = GameObject.typeCollideBnR(ball, paddle);
-
-        if(vaChamVan == 2) {
-
-            ball.move.changeY();
-            if(ball.move.x >= 0) {
-                if(keyH.rightPressed) {
-                    if(ball.posX + ball.radius >= paddle.posX && ball.posX + ball.radius <= paddle.posX + ((double) paddle.width) / 4) {
-                        ball.move.angle = rand.nextInt(90 - ball.move.angle + 1) + ball.move.angle;
-                        ball.move.changeVal(ball.speed);
-                    }
-                    if(ball.posX + ball.radius >= paddle.posX + ((double) (paddle.width * 3) / 4) && ball.posX + ball.radius <= paddle.posX + paddle.width) {
-                        ball.move.angle = rand.nextInt(ball.move.angle - 10 + 1) + 10;
-                        ball.move.changeVal(ball.speed);
-                    }
-                }
-
-                if(keyH.leftPressed) {
-                    if(ball.posX + ball.radius >= paddle.posX && ball.posX + ball.radius <= paddle.posX + ((double) paddle.width) / 4) {
-                        ball.move.angle = rand.nextInt(ball.move.angle - 10 + 1) + 10;
-                        ball.move.changeVal(ball.speed);
-                        ball.move.changeX();
-                    } else if(ball.posX + ball.radius >= paddle.posX + ((double) (paddle.width * 3) / 4) && ball.posX + ball.radius <= paddle.posX + paddle.width) {
-                        ball.move.angle = rand.nextInt(90 - ball.move.angle + 1) + ball.move.angle;
-                        ball.move.changeVal(ball.speed);
-                        ball.move.changeX();
-                    } else {
-                        ball.move.changeX();
-                    }
-                }
-            }
-
-            if(ball.move.x <= 0) {
-                if(keyH.leftPressed) {
-                    if(ball.posX + ball.radius >= paddle.posX && ball.posX + ball.radius <= paddle.posX + ((double) paddle.width) / 4) {
-                        ball.move.angle = rand.nextInt(ball.move.angle - 10 + 1) + 10;
-                        ball.move.changeVal(ball.speed);
-                        ball.move.changeX();
-                    }
-                    if(ball.posX + ball.radius >= paddle.posX + ((double) (paddle.width * 3) / 4) && ball.posX + ball.radius <= paddle.posX + paddle.width) {
-                        ball.move.angle = rand.nextInt(90 - ball.move.angle + 1) + ball.move.angle;
-                        ball.move.changeVal(ball.speed);
-                        ball.move.changeX();
-                    }
-                }
-
-                if(keyH.rightPressed) {
-                    if(ball.posX + ball.radius >= paddle.posX && ball.posX + ball.radius <= paddle.posX + ((double) paddle.width) / 4) {
-                        ball.move.angle = rand.nextInt(90 - ball.move.angle + 1) + ball.move.angle;
-                        ball.move.changeVal(ball.speed);
-                    } else if(ball.posX + ball.radius >= paddle.posX + ((double) (paddle.width * 3) / 4) && ball.posX + ball.radius <= paddle.posX + paddle.width) {
-                        ball.move.angle = rand.nextInt(ball.move.angle - 10 + 1) + 10;
-                        ball.move.changeVal(ball.speed);
-                    } else {
-                        ball.move.changeX();
-                    }
-                }
-            }
-        }
-
-        if(vaChamVan == 1|| vaChamVan == 3) {
-            ball.move.changeX();
-        }
-
-        if(vaChamVan == 5 && ball.posY + ball.radius <= paddle.posY) {
-            ball.move.changeX();
-            ball.move.changeY();
+        if(GameObject.isCollide(ball, paddle)) {
+            ball.reaction(paddle);
         }
 
         //Va cham vs gach
@@ -225,7 +160,7 @@ public class GamePanel extends JPanel implements Runnable{
 
             if(GameObject.isCollide(ball, brick)) {
                 playSE(4);
-                GameObject.interact(ball, brick);
+                ball.reaction(brick);
                 brick.takeHit(ball);
             }
 

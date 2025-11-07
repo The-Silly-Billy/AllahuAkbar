@@ -1,5 +1,6 @@
 package GameObject;
 
+import GameObject.Brick.Brick;
 import Main.GamePanel;
 import Main.KeyHandler;
 
@@ -7,6 +8,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Random;
 
 public class Ball extends GameObject {
@@ -95,6 +97,167 @@ public class Ball extends GameObject {
 
             if(posX > gp.screenWidth - (double) (gp.originalTileSize * 5 - 10 - width) / 2) {
                 posX = gp.screenWidth - (double) (gp.originalTileSize * 5 - 10 - width) / 2;
+            }
+        }
+    }
+
+    public void reaction(GameObject object) {
+        if(object instanceof Paddle) {
+            int vaChamVan = GameObject.typeCollideBnR(this, object);
+
+            if(vaChamVan == 2) {
+
+                this.move.changeY();
+                if(this.move.x >= 0) {
+                    if(keyH.rightPressed) {
+                        if(this.posX + this.radius >= object.posX && this.posX + this.radius <= object.posX + ((double) object.width) / 4) {
+                            this.move.angle = rand.nextInt(90 - this.move.angle + 1) + this.move.angle;
+                            this.move.changeVal(this.speed);
+                        }
+                        if(this.posX + this.radius >= object.posX + ((double) (object.width * 3) / 4) && this.posX + this.radius <= object.posX + object.width) {
+                            this.move.angle = rand.nextInt(this.move.angle - 10 + 1) + 10;
+                            this.move.changeVal(this.speed);
+                        }
+                    }
+
+                    if(keyH.leftPressed) {
+                        if(this.posX + this.radius >= object.posX && this.posX + this.radius <= object.posX + ((double) object.width) / 4) {
+                            this.move.angle = rand.nextInt(this.move.angle - 10 + 1) + 10;
+                            this.move.changeVal(this.speed);
+                            this.move.changeX();
+                        } else if(this.posX + this.radius >= object.posX + ((double) (object.width * 3) / 4) && this.posX + this.radius <= object.posX + object.width) {
+                            this.move.angle = rand.nextInt(90 - this.move.angle + 1) + this.move.angle;
+                            this.move.changeVal(this.speed);
+                            this.move.changeX();
+                        } else {
+                            this.move.changeX();
+                        }
+                    }
+                }
+
+                if(this.move.x <= 0) {
+                    if(keyH.leftPressed) {
+                        if(this.posX + this.radius >= object.posX && this.posX + this.radius <= object.posX + ((double) object.width) / 4) {
+                            this.move.angle = rand.nextInt(this.move.angle - 10 + 1) + 10;
+                            this.move.changeVal(this.speed);
+                            this.move.changeX();
+                        }
+                        if(this.posX + this.radius >= object.posX + ((double) (object.width * 3) / 4) && this.posX + this.radius <= object.posX + object.width) {
+                            this.move.angle = rand.nextInt(90 - this.move.angle + 1) + this.move.angle;
+                            this.move.changeVal(this.speed);
+                            this.move.changeX();
+                        }
+                    }
+
+                    if(keyH.rightPressed) {
+                        if(this.posX + this.radius >= object.posX && this.posX + this.radius <= object.posX + ((double) object.width) / 4) {
+                            this.move.angle = rand.nextInt(90 - this.move.angle + 1) + this.move.angle;
+                            this.move.changeVal(this.speed);
+                        } else if(this.posX + this.radius >= object.posX + ((double) (object.width * 3) / 4) && this.posX + this.radius <= object.posX + object.width) {
+                            this.move.angle = rand.nextInt(this.move.angle - 10 + 1) + 10;
+                            this.move.changeVal(this.speed);
+                        } else {
+                            this.move.changeX();
+                        }
+                    }
+                }
+            }
+
+            if(vaChamVan == 1|| vaChamVan == 3) {
+                this.move.changeX();
+            }
+
+            if(vaChamVan == 5 && this.posY + this.radius <= object.posY) {
+                this.move.changeX();
+                this.move.changeY();
+            }
+        }
+
+        if(object instanceof Brick) {
+            switch(typeCollideBnR(this, object)) {
+                case 1:
+                    if(this.move.x > 0) {
+                        this.move.changeX();
+                        System.out.println(1);
+                    }
+                    break;
+
+                case 2:
+                    if(this.move.y > 0) {
+                        this.move.changeY();
+                        System.out.println(2);
+                    }
+                    break;
+
+                case 3:
+                    if(this.move.x < 0) {
+                        this.move.changeX();
+                        System.out.println(3);
+                    }
+                    break;
+
+                case 4:
+                    if(this.move.y < 0) {
+                        this.move.changeY();
+                        System.out.println(4);
+                    }
+                    break;
+
+                case 5:
+                    boolean left = Math.abs((this.posX + this.width) - object.posX) < 7.0;
+                    boolean right = Math.abs(this.posX - (object.posX + object.width)) < 7.0;
+                    boolean top = Math.abs((this.posY + this.height) - object.posY) < 7.0;
+                    boolean bottom = Math.abs(this.posY - (object.posY + object.height)) < 7.0;
+
+                    if(top && left) {
+                        if(this.move.x < 0 && this.move.y > 0) {
+                            this.move.changeY();
+                        } else if(this.move.x > 0 && this.move.y < 0) {
+                            this.move.changeX();
+                        } else {
+                            this.move.changeX();
+                            this.move.changeY();
+                        }
+                        System.out.println("top-left");
+                    } else if(top && right) {
+                        if(this.move.x < 0 && this.move.y < 0) {
+                            this.move.changeX();
+                        } else if(this.move.x > 0 && this.move.y > 0) {
+                            this.move.changeY();
+                        } else {
+                            this.move.changeX();
+                            this.move.changeY();
+                        }
+                        System.out.println("top-right");
+                    } else if(bottom && left) {
+                        if(this.move.x < 0 && this.move.y < 0) {
+                            this.move.changeY();
+                        } else if(this.move.x > 0 && this.move.y > 0) {
+                            this.move.changeX();
+                        } else {
+                            this.move.changeX();
+                            this.move.changeY();
+                        }
+                        System.out.println("bottom-left");
+                    } else if(bottom && right) {
+                        if(this.move.x > 0 && this.move.y < 0) {
+                            this.move.changeY();
+                        } else if(this.move.x < 0 && this.move.y > 0) {
+                            this.move.changeX();
+                        } else {
+                            this.move.changeX();
+                            this.move.changeY();
+                        }
+                        System.out.println("bottom-right");
+                    } else {
+                        this.move.changeX();
+                        this.move.changeY();
+                        System.out.println("magic");
+                    }
+                    break;
+
+                default:
+                    break;
             }
         }
     }
