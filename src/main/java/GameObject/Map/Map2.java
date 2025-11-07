@@ -7,15 +7,14 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Map2 {
-
-    GamePanel gp;
-
-    public List<Brick> list = new ArrayList<>();
-
+public class Map2 extends Map {
     public Map2(GamePanel gp) {
-        this.gp = gp;
+        super(gp);
+        buildMap();
+    }
 
+    @Override
+    public void buildMap() {
         for (int i = 0; i < 10; i++) {
             list.add(new BrGray(gp, 0, 50 + 25 * i));
         }
@@ -51,12 +50,5 @@ public class Map2 {
         }
 
         list.add(new BrGray(gp, 480, 300));
-
-    }
-
-    public void render(Graphics2D g2) {
-        for (Brick brick : list) {
-            g2.drawImage(brick.image, (int) brick.posX, (int) brick.posY, brick.width, brick.height, null);
-        }
     }
 }

@@ -4,9 +4,6 @@ import GameObject.Brick.*;
 import Main.GamePanel;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-
 /*
 -----------MAP DE TEST GACH-----------
 --------------------------------------
@@ -15,15 +12,14 @@ import java.util.List;
 
  -------------------------------------
  */
-public class MapTest {
-
-    GamePanel gp;
-
-    public List<Brick> list = new ArrayList<>();
-
+public class MapTest extends Map{
     public MapTest(GamePanel gp) {
-        this.gp = gp;
+        super(gp);
+        buildMap();
+    }
 
+    @Override
+    public void buildMap() {
         list.add(new BrBlue(gp, 48, 300));
         list.add(new BrGreen(gp, 96, 300));
         list.add(new BrLightBlue(gp, 144, 300));
@@ -33,13 +29,5 @@ public class MapTest {
         list.add(new BrWall(gp, 336, 300));
         list.add(new BrBrown(gp, 384, 300));
         list.add(new BrGray(gp, 432, 300));
-
-
-    }
-
-    public void render(Graphics2D g2) {
-        for (Brick brick : list) {
-            g2.drawImage(brick.image, (int) brick.posX, (int) brick.posY, brick.width, brick.height, null);
-        }
     }
 }
