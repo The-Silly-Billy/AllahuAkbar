@@ -130,8 +130,10 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update() {
-        if(heartList.isEmpty()) {
+        if(state == GameState.PLAYING && heartList.isEmpty()) {
             setState(GameState.MENU);
+            resetGame();
+            return;
         }
         switch (state) {
             case MENU:

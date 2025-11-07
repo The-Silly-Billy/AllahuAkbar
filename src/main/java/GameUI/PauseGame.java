@@ -32,8 +32,8 @@ public class PauseGame {
     }
 
     private void loadButtons() {
-        buttons[0] = new Button(pauseMenuX + 236, pauseMenuY + 219,0, LoadMat.MUSIC_ON, MUTED, gp);
-        buttons[1] = new Button(pauseMenuX + 236, pauseMenuY + 161,0, LoadMat.MUSIC_ON, MUTED, gp);
+        buttons[0] = new Button(pauseMenuX + 236, pauseMenuY + 161,0, LoadMat.MUSIC_ON, MUTED, gp);
+        buttons[1] = new Button(pauseMenuX + 236, pauseMenuY + 219,0, LoadMat.MUSIC_ON, MUTED, gp);
         buttons[2] = new Button(pauseMenuX + 47, pauseMenuY + 414,0, LoadMat.HOME_BUTTON, MENU,gp);
         buttons[3] = new Button(pauseMenuX + 148, pauseMenuY + 414,0, LoadMat.PLAY, PLAYING, gp);
         buttons[4] = new Button(pauseMenuX + 249, pauseMenuY + 414,0, LoadMat.RESTART,MENU, gp);
@@ -80,6 +80,7 @@ public class PauseGame {
             case MENU:
                 if (buttonIndex == 2) {
                     gp.setState(MENU);
+                    gp.resetGame();
                 } else if (buttonIndex == 4) {
                     gp.resetGame();
                     gp.setState(PLAYING);
