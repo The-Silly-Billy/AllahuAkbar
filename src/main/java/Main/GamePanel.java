@@ -1,11 +1,12 @@
 package Main;
 
 import GameObject.Brick.*;
+import GameObject.Heart.HeartManager;
 import GameObject.Map.*;
 import GameObject.GameObject;
 import GameObject.Ball;
 import GameObject.Paddle;
-import GameObject.Heart;
+import GameObject.Heart.Heart;
 import GameUI.PauseGame;
 import GameUI.StartMenu;
 import GameUI.GameState;
@@ -13,7 +14,6 @@ import GameUI.GameState;
 import javax.swing.JPanel;
 import java.awt.*;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class GamePanel extends JPanel implements Runnable{
@@ -54,7 +54,7 @@ public class GamePanel extends JPanel implements Runnable{
     //PowerUp
 
     //Hearts
-    public ArrayList<Heart> heartList = new ArrayList<>();
+    public HeartManager heartList = new HeartManager(this);
 
     int scorePlayer = 0;
     Font customFont = null;
@@ -70,10 +70,9 @@ public class GamePanel extends JPanel implements Runnable{
 
         playMusic(0);
 
-        setupHearts();
         try {
             InputStream inputStream=getClass().getResourceAsStream("/Font/Jersey25-Regular.ttf");
-            customFont =Font.createFont(Font.TRUETYPE_FONT,inputStream);
+            customFont = Font.createFont(Font.TRUETYPE_FONT,inputStream);
             GraphicsEnvironment ge=GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(customFont);
         }
@@ -126,13 +125,6 @@ public class GamePanel extends JPanel implements Runnable{
 
     public PauseGame getPauseGame() {
         return this.pauseGame;
-    }
-
-    //Ham add 3 object heart vao list
-    public void setupHearts(){
-        for (int i = 0; i < 3; i++){
-            heartList.add(new Heart(this,10 + 30 * i,screenHeight - 50));//posY lay toa do bang cach thu
-        }
     }
 
     public void update() {
@@ -253,7 +245,7 @@ public class GamePanel extends JPanel implements Runnable{
         //khi het ba mang out game
         if(ball.posY > screenHeight - ball.radius) {
             if (!heartList.isEmpty()) {
-                heartList.remove(heartList.size() - 1);//xoa mot heart khi chet
+                heartList.dec();
                 ball.initPos();
                 paddle.initPos();
             }
@@ -281,16 +273,16 @@ public class GamePanel extends JPanel implements Runnable{
                 ball.render(g2);
 
                 map.render(g2);
-                for (Heart h : heartList) {
-                    h.render(g2);
-                }
+
+                heartList.render(g2);
+
                 if (customFont != null) {
 
                     g2.setFont(customFont.deriveFont(Font.PLAIN, 20f));
                 }
                 g2.setColor(Color.white);
 
-                g2.drawString("Score : "+scorePlayer,screenWidth-100,screenHeight -40);
+                g2.drawString("Score : " + scorePlayer,screenWidth - 100,screenHeight - 40);
                 break;
             case GAME_OVER:
                 //Game over
@@ -299,16 +291,16 @@ public class GamePanel extends JPanel implements Runnable{
                 ball.render(g2);
 
                 map.render(g2);
-                for (Heart h : heartList) {
-                    h.render(g2);
-                }
+
+                heartList.render(g2);
+
                 if (customFont != null) {
 
                     g2.setFont(customFont.deriveFont(Font.PLAIN, 20f));
                 }
                 g2.setColor(Color.white);
 
-                g2.drawString("Score : "+scorePlayer,screenWidth-100,screenHeight -40);
+                g2.drawString("Score : " + scorePlayer, screenWidth - 100,screenHeight - 40);
                 pauseGame.draw(g2);
                 break;
 
@@ -319,8 +311,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void resetGame() {
         ball.initPos();
         paddle.initPos();
-        heartList.clear();
-        setupHearts();
+        heartList.init();
         map = new Map4(this);
         scorePlayer = 0;
     }

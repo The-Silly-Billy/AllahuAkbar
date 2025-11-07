@@ -1,10 +1,8 @@
 package GameObject.PowerUp;
 
-import GameObject.Heart;
+import GameObject.Heart.Heart;
+import GameObject.Heart.HeartManager;
 import Main.GamePanel;
-
-import javax.imageio.ImageIO;
-import java.io.IOException;
 
 public class Pluslife extends PowerUp {
 
@@ -15,11 +13,8 @@ public class Pluslife extends PowerUp {
 
     @Override
     protected void applyEffect() {
-        // Thêm 1 mạng nếu chưa đầy
-        if(gp.heartList.size() < 5) { // Giới hạn tối đa 5 mạng
-            int newHeartX = 10 + 50 * gp.heartList.size();
-            gp.heartList.add(new Heart(gp, newHeartX, gp.screenHeight - 50));
-        }
+        // Thêm 1 mạng nếu chưa đầy 5 mang
+        gp.heartList.inc();
     }
 
     @Override

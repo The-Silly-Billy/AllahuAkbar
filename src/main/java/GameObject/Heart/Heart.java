@@ -1,5 +1,6 @@
-package GameObject;
+package GameObject.Heart;
 
+import GameObject.GameObject;
 import Main.GamePanel;
 
 import javax.imageio.ImageIO;
@@ -7,14 +8,14 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Heart extends GameObject{
+public class Heart extends GameObject {
     GamePanel gp;
     BufferedImage image;
 
-    public Heart (GamePanel gp,int posX,int posY){
-        this.gp=gp;
-        this.posX=posX;
-        this.posY=posY;
+    public Heart (GamePanel gp,int posX){
+        this.gp = gp;
+        this.posX = posX;
+        this.posY = gp.screenHeight - 50;
 
         width = 22;
         height = 22;
@@ -25,10 +26,4 @@ public class Heart extends GameObject{
             e.printStackTrace();
         }
     }
-
-    public void render(Graphics2D g2) {
-        g2.drawImage(image, (int) posX ,  (int) posY , width, height, null);
-    }
-
-
 }
