@@ -6,6 +6,7 @@ import GameObject.Map.*;
 import GameObject.GameObject;
 import GameObject.Ball;
 import GameObject.Paddle;
+import GameObject.PowerUpManager;
 import GameObject.Heart.Heart;
 import GameUI.PauseGame;
 import GameUI.StartMenu;
@@ -52,6 +53,7 @@ public class GamePanel extends JPanel implements Runnable{
     //Brick Map
     Map4 map = new Map4( this);
     //PowerUp
+    PowerUpManager powerUp = new PowerUpManager(this);
 
     //Hearts
     public HeartManager heartList = new HeartManager(this);
@@ -138,6 +140,7 @@ public class GamePanel extends JPanel implements Runnable{
             case PLAYING:
                 paddle.update();
                 ball.update();
+                powerUp.update(paddle);
                 break;
             case GAME_OVER:
                 break;
@@ -231,6 +234,7 @@ public class GamePanel extends JPanel implements Runnable{
 
             if (brick.isDestroy()) {
                 scorePlayer++;
+                powerUp.trySpawnPowerUp(brick.posX,brick.posY, paddle, ball);
                 repaint();
                 map.list.remove(i);
                 i--;
@@ -271,7 +275,7 @@ public class GamePanel extends JPanel implements Runnable{
             case PLAYING:
                 paddle.render(g2);
                 ball.render(g2);
-
+                powerUp.render(g2);
                 map.render(g2);
 
                 heartList.render(g2);

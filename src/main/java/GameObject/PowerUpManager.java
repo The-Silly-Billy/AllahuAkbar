@@ -81,19 +81,6 @@ public class PowerUpManager {
                 pu.render(g2);
             }
         }
-
-        // Hiển thị thông tin hiệu ứng đang active
-        int yOffset = 10;
-        g2.setFont(new Font("Arial", Font.PLAIN, 16));
-
-        for(PowerUp pu : activePowerUps) {
-            if(pu.isActive && pu.getRemainingTime() > 0) {
-                String text = pu.getType().name() + ": " + pu.getRemainingTime() + "s";
-                g2.setColor(Color.YELLOW);
-                g2.drawString(text, 10, yOffset);
-                yOffset += 20;
-            }
-        }
     }
 
     public void reset() {
