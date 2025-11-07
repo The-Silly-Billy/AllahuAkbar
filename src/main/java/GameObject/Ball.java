@@ -103,10 +103,10 @@ public class Ball extends GameObject {
 
     public void reaction(GameObject object) {
         if(object instanceof Paddle) {
+
             int vaChamVan = GameObject.typeCollideBnR(this, object);
 
             if(vaChamVan == 2) {
-
                 this.move.changeY();
                 if(this.move.x >= 0) {
                     if(keyH.rightPressed) {

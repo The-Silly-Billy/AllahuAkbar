@@ -6,7 +6,7 @@ import GameObject.Map.*;
 import GameObject.GameObject;
 import GameObject.Ball;
 import GameObject.Paddle;
-import GameObject.PowerUpManager;
+import GameObject.PowerUp.PowerUpManager;
 import GameUI.PauseGame;
 import GameUI.StartMenu;
 import GameUI.GameState;
@@ -69,7 +69,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.addKeyListener(keyH);
         this.setFocusable(true);
 
-//        playMusic(0);
+        playMusic(0);
 
         try {
             InputStream inputStream=getClass().getResourceAsStream("/Font/Jersey25-Regular.ttf");

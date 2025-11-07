@@ -1,6 +1,8 @@
-package GameObject;
+package GameObject.PowerUp;
 
-import GameObject.PowerUp.*;
+import GameObject.Ball;
+import GameObject.GameObject;
+import GameObject.Paddle;
 import Main.GamePanel;
 
 import java.awt.*;

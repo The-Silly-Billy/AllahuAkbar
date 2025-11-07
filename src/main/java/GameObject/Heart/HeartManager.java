@@ -11,7 +11,6 @@ public class HeartManager {
 
     public HeartManager(GamePanel gp) {
         this.gp = gp;
-
         init();
     }
 
