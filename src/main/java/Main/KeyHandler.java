@@ -21,6 +21,12 @@ public class KeyHandler implements KeyListener{
             gamePanel.getMenu().keyPressed(e);
         } else if (gamePanel.getGameState() == GameState.PAUSED) {
             gamePanel.getPauseGame().keyPressed(e);
+        } else if (gamePanel.getGameState() == GameState.GAME_OVER) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                gamePanel.resetGame();
+                gamePanel.getMenu().resetSelection();
+                gamePanel.setState(GameState.MENU);
+            }
         }
         else if (gamePanel.getGameState() == GameState.PLAYING) {
             int code = e.getKeyCode();

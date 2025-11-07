@@ -7,7 +7,6 @@ import GameObject.GameObject;
 import GameObject.Ball;
 import GameObject.Paddle;
 import GameObject.PowerUpManager;
-import GameObject.Heart.Heart;
 import GameUI.PauseGame;
 import GameUI.StartMenu;
 import GameUI.GameState;
@@ -70,7 +69,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.addKeyListener(keyH);
         this.setFocusable(true);
 
-        playMusic(0);
+//        playMusic(0);
 
         try {
             InputStream inputStream=getClass().getResourceAsStream("/Font/Jersey25-Regular.ttf");
@@ -130,36 +129,34 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update() {
-        if(state == GameState.PLAYING && heartList.isEmpty()) {
-            setState(GameState.MENU);
-            resetGame();
-            return;
-        }
         switch (state) {
             case MENU:
                 menu.update();
-                break;
+                return;
+            case OPTION:
+            case MUTED:
+            case UNMUTED:
+                return;
             case PLAYING:
                 paddle.update();
                 ball.update();
                 powerUp.update(paddle);
                 break;
             case GAME_OVER:
-                break;
+                return;
             case QUIT:
                 System.exit(0);
-                break;
+                return;
             case PAUSED:
                 pauseGame.update();
-                break;
+                return;
         }
 
-        //Va cham voi pad
+
         if(GameObject.isCollide(ball, paddle)) {
             ball.reaction(paddle);
         }
 
-        //Va cham vs gach
         for(int i = 0; i < map.list.size(); i++) {
             Brick brick = map.list.get(i);
 
@@ -178,23 +175,17 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
 
-        //Va cham voi PowerUp
-
-
-
-        //Update tut mau
-        //khi het ba mang out game
         if(ball.posY > screenHeight - ball.radius) {
             if (!heartList.isEmpty()) {
                 heartList.dec();
                 ball.initPos();
                 paddle.initPos();
             }
-            //Game Over
-            ball.initPos();
-            paddle.initPos();
-        }
 
+            if(heartList.isEmpty()) {
+                setState(GameState.GAME_OVER);
+            }
+        }
     }
 
     //method ve
@@ -226,7 +217,25 @@ public class GamePanel extends JPanel implements Runnable{
                 g2.drawString("Score : " + scorePlayer,screenWidth - 100,screenHeight - 40);
                 break;
             case GAME_OVER:
-                //Game over
+                paddle.render(g2);
+                ball.render(g2);
+                powerUp.render(g2);
+                map.render(g2);
+
+                heartList.render(g2);
+
+                if (customFont != null) {
+                    g2.setFont(customFont.deriveFont(Font.PLAIN, 24f));
+                }
+                g2.setColor(Color.white);
+
+                g2.drawString("Score : " + scorePlayer, screenWidth - 100,screenHeight - 40);
+
+                String gameOverMessage = "Game over ENTER to continue";
+                FontMetrics fm = g2.getFontMetrics();
+                int messageWidth = fm.stringWidth(gameOverMessage);
+                g2.drawString(gameOverMessage, (screenWidth - messageWidth) / 2, screenHeight / 2);
+                break;
             case PAUSED:
                 paddle.render(g2);
                 ball.render(g2);
@@ -243,6 +252,13 @@ public class GamePanel extends JPanel implements Runnable{
 
                 g2.drawString("Score : " + scorePlayer, screenWidth - 100,screenHeight - 40);
                 pauseGame.draw(g2);
+                break;
+            case OPTION:
+            case MUTED:
+            case UNMUTED:
+                menu.draw(g2);
+                break;
+            case QUIT:
                 break;
 
         }

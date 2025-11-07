@@ -47,6 +47,13 @@ public class StartMenu {
         }
     }
 
+    public void resetSelection() {
+        buttonNumber = 0;
+        resetButtons();
+        buttons[buttonNumber].setKeyOn(true);
+        state = GameState.MENU;
+    }
+
     public void draw (Graphics g) {
         for(Button b : buttons) {
             b.draw(g);
