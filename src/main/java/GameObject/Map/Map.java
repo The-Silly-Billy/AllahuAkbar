@@ -5,11 +5,10 @@ import Main.GamePanel;
 
 import java.awt.*;
 import java.util.ArrayList;
-
+import java.util.concurrent.CopyOnWriteArrayList; // ← THÊM import
 public abstract class Map {
     GamePanel gp;
-    public ArrayList<Brick> list = new ArrayList<>();
-
+    public CopyOnWriteArrayList<Brick> list = new CopyOnWriteArrayList<>(); // ← SỬA: Dùng CopyOnWriteArrayList<Brick>
     public Map(GamePanel gp) {
         this.gp = gp;
         buildMap();

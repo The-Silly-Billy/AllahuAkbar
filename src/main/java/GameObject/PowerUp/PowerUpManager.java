@@ -10,12 +10,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PowerUpManager {
     GamePanel gp;
     Random rand = new Random();
 
-    public List<PowerUp> activePowerUps = new ArrayList<>();
+    public List<PowerUp> activePowerUps = new CopyOnWriteArrayList<>();
 
     // Xác suất rơi PowerUp khi phá gạch (20%)
     private static final double DROP_CHANCE = 0.2;
@@ -57,10 +58,9 @@ public class PowerUpManager {
     }
 
     public void update(Paddle paddle) {
-        Iterator<PowerUp> iterator = activePowerUps.iterator();
+        List<PowerUp> toRemove = new ArrayList<>();
+        for(PowerUp pu : activePowerUps) {
 
-        while(iterator.hasNext()) {
-            PowerUp pu = iterator.next();
             pu.update();
 
             // Kiểm tra va chạm với paddle (khi PowerUp đang rơi)
@@ -71,9 +71,11 @@ public class PowerUpManager {
 
             // Xóa nếu không còn active và không còn hiển thị
             if(!pu.isAppear && !pu.isActive) {
-                iterator.remove();
+                toRemove.add(pu);
             }
         }
+        activePowerUps.removeAll(toRemove);
+
     }
 
     public void render(Graphics2D g2) {

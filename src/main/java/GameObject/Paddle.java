@@ -13,12 +13,14 @@ public class Paddle extends GameObject {
     GamePanel gp;
     KeyHandler keyH;
     BufferedImage image;
+    public final int ORIGINAL_WIDTH;
 
     public Paddle(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
 
-        width = gp.originalTileSize * 5 - 10;               //70
+        width = gp.originalTileSize * 5 - 10;//70
+        ORIGINAL_WIDTH = width;
         height = gp.originalTileSize;                       //16
 
         try {

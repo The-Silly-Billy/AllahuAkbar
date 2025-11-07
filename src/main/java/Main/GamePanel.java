@@ -178,8 +178,10 @@ public class GamePanel extends JPanel implements Runnable{
         if(ball.posY > screenHeight - ball.radius) {
             if (!heartList.isEmpty()) {
                 heartList.dec();
+                powerUp.reset();
                 ball.initPos();
                 paddle.initPos();
+
             }
 
             if(heartList.isEmpty()) {
