@@ -36,11 +36,11 @@ public abstract class PowerUp extends GameObject {
         width = gp.originalTileSize * 2;
         height = gp.originalTileSize * 2;
 
-        try {
+       /* try {
             image = ImageIO.read(getClass().getResourceAsStream("/power_up.png"));
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public void update() {
@@ -85,3 +85,4 @@ public abstract class PowerUp extends GameObject {
         return duration / 60; // convert frames to seconds
     }
 }
+

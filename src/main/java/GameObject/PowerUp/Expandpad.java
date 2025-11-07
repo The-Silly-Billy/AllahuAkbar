@@ -16,7 +16,13 @@ public class Expandpad extends PowerUp {
         this.paddle = paddle;
         this.originalWidth = paddle.width;
         this.type = PowerUpType.EXPAND_PAD;
+        try {
+            image = ImageIO.read(getClass().getResourceAsStream("/expandpad.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     @Override
     protected void applyEffect() {

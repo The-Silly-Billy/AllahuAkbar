@@ -16,6 +16,11 @@ public class FireBall extends PowerUp {
         this.ball = ball;
         this.originalDamage = ball.ballDamage;
         this.type = PowerUpType.FIREBALL;
+        try {
+            image = ImageIO.read(getClass().getResourceAsStream("/power_up.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

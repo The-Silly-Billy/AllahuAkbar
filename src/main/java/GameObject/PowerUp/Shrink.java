@@ -16,6 +16,11 @@ public class Shrink extends PowerUp {
         this.paddle = paddle;
         this.originalWidth = paddle.width;
         this.type = PowerUpType.SHRINK_PAD;
+        try {
+            image = ImageIO.read(getClass().getResourceAsStream("/shrinkpad.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

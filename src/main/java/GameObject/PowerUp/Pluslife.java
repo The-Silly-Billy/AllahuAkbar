@@ -4,11 +4,19 @@ import GameObject.Heart.Heart;
 import GameObject.Heart.HeartManager;
 import Main.GamePanel;
 
+import javax.imageio.ImageIO;
+import java.io.IOException;
+
 public class Pluslife extends PowerUp {
 
     public Pluslife(GamePanel gp, double posX, double posY) {
         super(gp, posX, posY, 0); // Không có duration, hiệu ứng tức thì
         this.type = PowerUpType.PLUS_HEART;
+        try {
+            image = ImageIO.read(getClass().getResourceAsStream("/heart.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
